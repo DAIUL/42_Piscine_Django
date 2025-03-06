@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Mon gros C.V la</title>
+	<style>
+	@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+		*{
+			font-family: "Roboto", sans-serif;
+		}
+
+		a{
+			text-decoration: none;
+			color: black;
+		}
+
+		.navbar{
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 20px 60px;
+		}
+
+		.navbar__menu{
+			display: flex;
+			gap: 20px;
+		}
+
+		.logo{
+			display: flex;
+			font-size: 24px;
+			font-weight: 500;
+		}
+
+		.navbar__link{
+			transition: all 0.3s ease;
+		}
+
+		.navbar__link:hover{
+			font-size: 17px;
+			font-weight: 600;
+		}
+
+		.github__link{
+			border: solid black;
+			color: white;
+			background: black;
+			padding: 8px;
+			border-radius: 8px;
+			transition: all 0.3s ease;
+		}
+
+		.github__link:hover{
+			color: black;
+			background: white;
+		}
+
+		.about{
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-direction: column;
+		}
+
+		h1{
+			margin-top: 216px;
+			font-size: 48px;
+		}
+
+		.about__info{
+			font-size: 24px;
+			color: gray;
+		}
+
+		.competences{
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-direction: column;
+		}
+
+		.tab{
+			border-collapse: collapse;
+			margin-top: 48px;
+		}
+
+		th,
+		td{
+			border: 3px solid orange;
+			padding: 16px;
+			text-align: center;
+			vertical-align: middle;
+		}
+
+		th{
+			background: lightgrey;
+			font-size: 28px;
+		}
+
+		td{
+			font-style: 24px;
+		}
+		
+		.parcours h1{
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.parcours__info{
+			margin-top: 48px;
+			display: flex;
+			justify-content: space-around;
+			padding: 24px;
+		}
+
+		.travail__parcours,
+		.general__parcours{
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-direction: column;
+		}
+
+		
+	</style>
+</head>
+<body>
+	<nav class=navbar>
+		<a href="#" class="logo">C.V</a>
+
+		<div class="navbar__menu">
+			<a href="#about" class="navbar__link">About Me</a>
+			<a href="#competences" class="navbar__link">Competences</a>
+			<a href="#parcours" class="navbar__link">Parcours</a>
+		</div>
+
+		<a href="https://github.com/DAIUL" target="_blank" rel="noopener noreferrer" class="github__link">Github</a>
+	</nav>
+
+	<section class="about">
+		<h1 id="about">Quentin Postapo</h1>
+
+		<div class="about__info">
+			<p>Developpeur plus que moyen mais fait de son mieux</p>
+		</div>
+
+	</section>
+
+	<section class="competences">
+		<h1>Competences</h1>
+		
+		<table class="tab" id="competences">
+			<tr>
+				<th>Code</th>
+				<th>Cuisine</th>
+				<th>Ingenieurie en helicoptere de combat</th>
+			</tr>
+			<tr>
+				<td>C</td>
+				<td>Risotto</td>
+				<td>HCaracal H225 M</td>
+			</tr>
+			<tr>
+				<td>C++</td>
+				<td>Quesadillas</td>
+				<td style="border-bottom-color: #424242;">TIGRE</td>
+			</tr>
+			<tr>
+				<td>Html/css</td>
+				<td style="border-right-color: #424242;">Opium</td>
+				<td style="border-color: #424242;">Kaman H-2 Tomahawk</td>
+			</tr>
+		</table>
+
+	</section>
+	
+	<section class="parcours">
+		<h1 id="parcours">Parcours</h1>
+
+		<div class="parcours__info">
+			<div class="general__parcours">
+				<h2>Parcours scolaire</h2>
+				<ol>
+					<li>Creche</li>
+					<li>Maternelle</li>
+					<li>Unite speciale de formation aux elites de combat</li>
+					<li>Primaire</li>
+					<li>College</li>
+					<li>Lycee</li>
+					<li>42</li>
+				</ol>
+			</div>
+			<div class="travail__parcours">
+				<h2>Parcours professionnel</h2>
+				<ul>
+					<li>3 ans - Serveur au bar "Sers la moi mais pas trop fort"</li>
+					<li>75 ans - Chez Heinz, jusqu'a obtention de ma certification de "sauce god"</li>
+					<li>5 ans - President du Sri Lanka en interim</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Formulaire</title>
+	<style>
+	@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+	*{
+		font-family: "Roboto", sans-serif;
+	}
+
+	.form{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+	}
+	.student__check{
+		display: flex;
+		justify-content: center;
+	}
+	.gender__check{
+		display: flex;
+		justify-content: center;
+	}
+	.button__form{
+		display: flex;
+		justify-content: center;
+		margin-top: 12px;
+	}
+	.btn{
+		color: white;
+		background: black;
+		border: solid black;
+		border-radius: 8px;
+		padding: 4px 8px;
+		transition: all 0.3s ease;
+	}
+	.btn:hover{
+		color: black;
+		background: white;
+	}
+	</style>
+</head>
+<body>
+	<div class="form">
+		<h1>Formulaire</h1>
+
+		<label for="firstname">Firstname : </label>
+		<input type="text" id="firstname" required>
+
+		<label for="name">Name : </label>
+		<input type="text" id="name" required>
+
+		<label for="age">Age : </label>
+		<input type="number" id="age" required>
+
+		<label for="phone">Phone : </label>
+		<input type="tel" id="phone" required>
+
+		<label for="email">Email : </label>
+		<input type="email" id="email" required>
+
+	</div>
+
+	<div class="student__check">
+		<label for="student" class="student__check">Student at 42 ? : </label>
+		<input type="checkbox" id="student" required>
+	</div>
+
+	<div class="gender__check">
+
+		<label for="male">Male</label>
+		<input type="radio" id="gender_male" name="gender" value="Male">
+
+		<label for="female">Female</label>
+		<input type="radio" id="gender_female" name="gender" value="Female">
+
+		<label for="other">Other</label>
+		<input type="radio" id="gender_other" name="gender" value="Other">
+
+	</div>
+	<div class="button__form">
+		<button class="btn" onClick="displayFormContents()">Run that sexy Javascript !</button>
+	</div>
+
+	<script src="popup.js"></script>
+</body>
+</html>
