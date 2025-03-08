@@ -9,7 +9,8 @@ def	giveState():
 
 	states = {
 		"Oregon" : "OR",
-		"Alabama" : "AL", "New Jersey": "NJ",
+		"Alabama" : "AL",
+		"New Jersey": "NJ",
 		"Colorado" : "CO"
 	}
 
