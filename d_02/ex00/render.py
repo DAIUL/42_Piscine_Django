@@ -21,7 +21,15 @@ settings = {}
 
 with open("settings.py", "r", encoding="utf-8") as f:
 	for line in f:
-		key, value = line.split("=", 1)
-		settings[key.strip()]= value.strip().strip('"').strip("'")
+		if "=" in line:
+			key, value = line.split("=", 1)
+			settings[key.strip()]= value.strip().strip('"').strip("'")
 
-re.sub(r"\{.*?\}", replaceVariable, templateText)
+def replaceVar(match) -> str:
+	key = match.group(1)
+	return settings.get(key, f"{{{key}}}")
+
+changed_file = re.sub(r"\{(.*?)\}", replaceVar, file_content)
+
+with open("myCV.html", "w", encoding="utf-8") as cvFile:
+	cvFile.write(changed_file)
