@@ -23,7 +23,6 @@ class Elem:
     """
     Elem will permit us to represent our HTML elements.
     """
-    #[...]
 
     class ValidationError(Exception):
         def __init__(self):
@@ -42,7 +41,6 @@ class Elem:
         self.content = []
         if content is not None:
             self.add_content(content)
-        #[...]
 
     def __str__(self):
         """
@@ -53,10 +51,8 @@ class Elem:
         """
         if self.tag_type == 'double':
             result = f"<{self.tag}{self.__make_attr()}>{self.__make_content()}</{self.tag}>"
-            #[...]
         elif self.tag_type == 'simple':
             result = f"<{self.tag}{self.__make_attr()} />"
-           # [...]
         return result
 
     def __make_attr(self):
@@ -106,4 +102,3 @@ class Elem:
 
 # if __name__ == '__main__':
 #     test()
-#     #[...]
