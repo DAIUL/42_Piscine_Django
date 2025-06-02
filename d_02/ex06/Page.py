@@ -21,15 +21,10 @@ class Page():
 		if not isinstance(element, ALLOWED_CLASS_IN_HTML):
 			return False
 		
-		if isinstance(element, Elem):
-			for child in element.content:
-				if not self.is_valid(child):
-					return False
-		
 		if isinstance(element, Html):
 			if len(element.content) != 2:
 				return False
-			if not isinstance(element.content[0], Head) and not isinstance(element.content[1], Body):
+			if not (isinstance(element.content[0], Head) and isinstance(element.content[1], Body)):
 				return False
 		
 		if isinstance(element, Head):
@@ -63,6 +58,11 @@ class Page():
 		if isinstance(element, Table):
 			if not all(isinstance(child, Tr) for child in element.content):
 				return False
+			
+		if isinstance(element, Elem):
+			for child in element.content:
+				if not self.is_valid(child):
+					return False
 		
 		return True
 			
@@ -71,10 +71,30 @@ class Page():
 			return f"<!DOCTYPE html>\n{self.element}"
 		else:
 			return f"{self.element}"
+		
+	def write_to_file(self, file_name):
+		with open(f"{file_name}.html", "w", encoding="utf-8") as file:
+			if isinstance(self.element, Html):
+				file.write(Text("<!DOCTYPE html>\n"))
+			file.write(Text(self.element))
 
 def test():
 	try:
-		print(Page(Body()))
+
+		valid_page = Page(Html([
+							Head(Title(Text("Page Title"))),
+							Body([
+								H1(Text("H1 Text")),
+								H2(Text("H2 Text")),
+								Ol([
+									Li(Text("List Text")),
+									Li(Text("2nd List Text"))
+								])
+							])
+						]))
+		print(valid_page.is_valid())
+		valid_page.write_to_file("valid_page")
+
 	except Html.ValidationError as e:
 		print(e)
 
