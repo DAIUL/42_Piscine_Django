@@ -48,7 +48,7 @@ def wikiFileCreate():
 		response.raise_for_status()
 		data = response.json()
 	except requests.exceptions.RequestException as e:
-		print(f"Erreur lors de la requête : {e}")
+		print(f"Error during the request : {e}")
 		return None
 	
 	pages = data.get("query", {}).get("pages", {})
