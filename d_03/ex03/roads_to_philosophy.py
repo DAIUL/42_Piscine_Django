@@ -6,6 +6,15 @@ from bs4 import BeautifulSoup
 
 BASE_URL = "https://en.wikipedia.org/wiki/"
 
+def get_first_paragraph(soup):
+    content = soup.find('div', id='mw-content-text')
+    paragraphs = content.find_all('p', recursive=True)
+
+    for p in paragraphs:
+        if p.text.strip():
+            return p
+    return None
+
 def roads_to_philo(query, philosophy_path):
 
 	try:
@@ -16,26 +25,34 @@ def roads_to_philo(query, philosophy_path):
 		print(f"Error: Error during the request {e}")
 		return None
 	
-	if query in philosophy_path:
-		print("Loop detected!")
+	title = soup.find('h1').text
+	print(title)
+
+	if title in philosophy_path:
+		print("It leads to an infinite loop !")
+		return
+	
+	philosophy_path.append(title)
+
+	if title.strip() == "Philosophy":
+		philosophy_path.append(title)
 		return
 
-	if soup.find('h1').text.strip() == "Philosophy":
-		philosophy_path.append(soup.find('h1').text)
-		return
+	content = soup.find('div', id='mw-content-text')
+	paragraphs = content.find_all('p', recursive=True)
 
-	first_p = soup.find('div', id='mw-content-text').find('p')
-	if first_p is None:
-		print("No paragraph found.")
-		return
+	for p in paragraphs:
+		if p.text.strip():
+			for link in p.find_all('a'):
+				href = link.get('href')
+				if href.startswith("/wiki/") and ':' not in href:
+					next_link = href.split("/wiki/")[1]
+					roads_to_philo(next_link, philosophy_path)
+					return
+		
+	print("It leads to a dead end !")
+	return
 
-	for link in first_p.find_all('a'):
-		href = link.get('href')
-		if href.startswith("/wiki/") and ':' not in href:
-			philosophy_path.append(soup.find('h1').text)
-			next_link = href.split("/wiki/")[1]
-			roads_to_philo(next_link, philosophy_path)
-			return
 
 def main():
 
@@ -48,7 +65,8 @@ def main():
 	philosophy_path = []
 
 	roads_to_philo(query, philosophy_path)
-	print(philosophy_path)
+	if "Philosophy" in philosophy_path:
+		print(f"{len(philosophy_path)} roads from {query} to philosophy")
 
 if __name__ == '__main__':
 	main()
