@@ -1,11 +1,39 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title></title>
+	<title>{% block title %}{% endblock title %}</title>
+	{% block style %}<link rel="stylesheet" href="{% static 'css/style1.css' %}">{% endblock style %}
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			margin: 20px;
+		}
+		.container{
+			display: flex;
+			justify-content: center;
+			flex-direction: column;
+		}
+		nav{
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 20px 60px;
+		}
+		nav a {
+			text-decoration: none;
+			font-weight: bold;
+		}
+		
+	</style>
 </head>
 <body>
-	
+	{% include "nav.html" %}
+	<div class="container">
+		{% block content %}{% endblock content %}
+	</div>
 </body>
 </html>

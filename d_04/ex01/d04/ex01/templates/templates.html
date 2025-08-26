@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Ex01 : Moteur de template.{% endblock title %}
+
+{% block style %}<link rel="stylesheet" href="{% static 'css/style2.css' %}">{% endblock style %}
+
+{% block content %}
+<h1>Moteur de template</h1>
+
+<p>
+	Le moteur de templates de Django permet de séparer le code Python de la présentation HTML. <br>
+	Il prend un fichier template et remplace les variables et instructions de contrôle par leur contenu réel pour générer une page HTML complète.
+</p>
+
+<h2>Blocs</h2>
+<p>Un bloc définit une zone du template pouvant être remplacée ou complétée par un template enfant lorsqu’on utilise l’héritage de template ({% verbatim  %}{% block nom_du_bloc %}{% endblock %}{% endverbatim  %}).</p>
+<h2>Boucles for...in </h2>
+<p>Elles permettent de parcourir une liste ou un dictionnaire passé au template et d’afficher dynamiquement son contenu ({% verbatim  %}{% for item in liste %} ... {% endfor %}{% endverbatim  %}).</p>
+<h2>Structures if</h2>
+<p>Elles permettent d’afficher du contenu conditionnellement selon la valeur d’une variable ({% verbatim  %}{% if condition %} ... {% else %} ... {% endif %}){% endverbatim  %}.</p>
+<h2>Affichage de variables</h2>
+<p>Les variables passées au template via le contexte sont affichées avec les doubles accolades ({% verbatim  %}{{ variable }}{% endverbatim  %}).</p>
+{% endblock content %}

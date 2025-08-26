@@ -2,10 +2,10 @@ from django.shortcuts import render, HttpResponse
 
 # Create your views here.
 def django(request):
-	return render(request, "base.html", {})
+	return render(request, "django.html")
 
 def affichage(request):
-	return render(request, "base.html", {a voir})
+	return render(request, "affichage.html")
 
 def templates(request):
-	return render(request, "base.html", {a voir})
+	return render(request, "templates.html")
