@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Ex02 : Historique{% endblock title %}
+
+{% block style %}{% endblock style %}
+
+{% block nav %} {% endblock nav %}
+
+{% block content %}
+
+<h1>Formulaire</h1>
+
+<form method="post">
+	{% csrf_token %}
+	{{form.as_p}}
+	<button type="submit">Submit</button>
+</form>
+
+<h1>Historique</h1>
+
+{%if history%}
+	<ul>
+		{%for entry in history%}
+			<li>{{entry}}</li>
+		{%endfor%}
+	</ul>
+{% else %}
+	<p>Rien pour le moment...</p>
+{% endif %}
+{% endblock content %}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Ex00: Markdown Cheatsheet.</title>
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+				margin: 20px;
+				display: flex;
+				justify-content: center;
+			}
+			.container {
+				display: flex;
+				flex-direction: column;
+				gap: 20px;
+				width: 90%;
+				max-width: 800px;
+			}
+			table {
+				border-collapse: collapse;
+				width: 100%;
+				background: #f9f9f9;
+				box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+			}
+			th, td {
+				border: 1px solid #ddd;
+				padding: 10px;
+				text-align: left;
+			}
+			th {
+				background: #f0f0f0;
+			}
+			code {
+				background: #eee;
+				padding: 2px 4px;
+				border-radius: 4px;
+				font-family: monospace;
+			}
+			a {
+				color: #007bff;
+				text-decoration: underline;
+				cursor: default;
+				pointer-events: none;
+			}
+		</style>
+    </head>
+    <body> 
+		<div id="container">
+			{% if content%}
+				{% for elem in content %}
+					{{ elem|safe }}
+					<br />
+				{% endfor %}
+			{% endif %}
+		</div>
+</body>
+</html>
