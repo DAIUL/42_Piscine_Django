@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Ex01 : Processus d’affichage d’une page statique.{% endblock title %}
+
+{% block content %}
+<h1>Processus d’affichage d’une page statique</h1>
+
+<ol>
+	<li>Le navigateur envoie une requête HTTP au serveur Django</li>
+	<li>Django reçoit la requête et cherche l’URL dans urls.py pour savoir quelle vue appeler</li>
+	<li>La vue associée est exécutée. Pour une page statique, elle se contente de rendre un template</li>
+	<li>Le template est transformé en HTML complet et renvoyé dans une réponse HTTP</li>
+	<li>Le navigateur reçoit la réponse et affiche la page</li>
+</ol>
+{% endblock content %}

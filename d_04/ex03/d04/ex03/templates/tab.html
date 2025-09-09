@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Ex03 Table{% endblock title %}
+
+{% block style %}{% endblock style %}
+
+{% block nav %}{% endblock nav %}
+
+{% block content %}
+
+	<table>
+		<tr>
+			<th>Black</th>
+			<th>Red</th>
+			<th>Green</th>
+			<th>Blue</th>
+		</tr>
+		{% for row in rows %}
+		<tr>
+			{% for color in row %}
+			<td style="background-color: {{ color }}"></td>
+			{% endfor %}
+		</tr>
+		{% endfor %}
+	</table>
+
+{% endblock content %}
