@@ -2,7 +2,6 @@ from django.shortcuts import render
 import psycopg2
 from django.conf import settings
 from django.http import HttpResponse
-from .models import Movies
 from django.db import IntegrityError
 
 def init(request):
@@ -38,38 +37,121 @@ def init(request):
 		return HttpResponse(f"Error: {e}")
 
 def populate(request):
-	movies_data = [
-        {"episode_nb": 1, "title": "The Phantom Menace", "director": "George Lucas",
-         "producer": "Rick McCallum", "release_date": "1999-05-19"},
-        {"episode_nb": 2, "title": "Attack of the Clones", "director": "George Lucas",
-         "producer": "Rick McCallum", "release_date": "2002-05-16"},
-        {"episode_nb": 3, "title": "Revenge of the Sith", "director": "George Lucas",
-         "producer": "Rick McCallum", "release_date": "2005-05-19"},
-        {"episode_nb": 4, "title": "A New Hope", "director": "George Lucas",
-         "producer": "Gary Kurtz, Rick McCallum", "release_date": "1977-05-25"},
-        {"episode_nb": 5, "title": "The Empire Strikes Back", "director": "Irvin Kershner",
-         "producer": "Gary Kutz, Rick McCallum", "release_date": "1980-05-17"},
-        {"episode_nb": 6, "title": "Return of the Jedi", "director": "Richard Marquand",
-         "producer": "Howard G. Kazanjian, George Lucas, Rick McCallum", "release_date": "1983-05-25"},
-        {"episode_nb": 7, "title": "The Force Awakens", "director": "J. J. Abrams",
-         "producer": "Kathleen Kennedy, J. J. Abrams, Bryan Burk", "release_date": "2015-12-11"},
+	data = [
+        {
+            "episode_nb": 1,
+            "title": "The Phantom Menace",
+            "director": "George Lucas",
+            "producer": "Rick McCallum",
+            "release_date": "1999-05-19",
+        },
+        {
+            "episode_nb": 2,
+            "title": "Attack of the Clones",
+            "director": "George Lucas",
+            "producer": "Rick McCallum",
+            "release_date": "2002-05-16",
+        },
+        {
+            "episode_nb": 3,
+            "title": "Revenge of the Sith",
+            "director": "George Lucas",
+            "producer": "Rick McCallum",
+            "release_date": "2005-05-19",
+        },
+        {
+            "episode_nb": 4,
+            "title": "A New Hope",
+            "director": "George Lucas",
+            "producer": "Gary Kurtz, Rick McCallum",
+            "release_date": "1977-05-25",
+        },
+        {
+            "episode_nb": 5,
+            "title": "The Empire Strikes Back",
+            "director": "Irvin Kershner",
+            "producer": "Gary Kutz, Rick McCallum",
+            "release_date": "1980-05-17",
+        },
+        {
+            "episode_nb": 6,
+            "title": "Return of the Jedi",
+            "director": "Richard Marquand",
+            "producer": "Howard G. Kazanjian, George Lucas, Rick McCallum",
+            "release_date": "1983-05-25",
+        },
+        {
+            "episode_nb": 7,
+            "title": "The Force Awakens",
+            "director": "J. J. Abrams",
+            "producer": "Kathleen Kennedy, J. J. Abrams, Bryan Burk",
+            "release_date": "2015-12-11",
+        },
     ]
 	results = []
 	
-	for data in movies_data:
-		try:
-			movie = Movies(**data)
-			movie.save()
-			results.append("OK")
-		except IntegrityError as e:
-			results.append(str(e))
-		except Exception as e:
-			results.append(str(e))
+	try:
+		conn = psycopg2.connect(
+            dbname="formationdjango",
+            user="djangouser",
+            password="secret",
+            host="localhost",
+        )
+		cur = conn.cursor()
+
+		for film in data:
+			try:
+				cur.execute(
+                    """
+                    INSERT INTO ex02_movies (episode_nb, title, director, producer, release_date)
+                    VALUES (%s, %s, %s, %s, %s);
+                    """,
+                    (
+                        film["episode_nb"],
+                        film["title"],
+                        film["director"],
+                        film["producer"],
+                        film["release_date"],
+                    ),
+                )
+				results.append(f"{film['title']}: OK")
+			except Exception as e:
+				results.append(f"{film['title']}: {str(e)}")
+				conn.rollback()
+			else:
+				conn.commit()
+
+		cur.close()
+		conn.close()
+	except Exception as e:
+		return HttpResponse(f"Database error: {e}")
 
 	return HttpResponse("<br>".join(results))
 
-		
 
 def display(request):
-	movies = Movies.objects.all()
-	return render(request, "movies.html", {"movies": movies})
+    try:
+        conn = psycopg2.connect(
+            dbname="formationdjango",
+            user="djangouser",
+            password="secret",
+            host="localhost",
+        )
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM ex02_movies;")
+        rows = cur.fetchall()
+        colnames = [desc[0] for desc in cur.description]  # noms des colonnes
+
+        cur.close()
+        conn.close()
+
+        if not rows:
+            return HttpResponse("No data available")
+
+        return render(request, "movies_sql.html", {
+            "columns": colnames,
+            "rows": rows,
+        })
+
+    except Exception as e:
+        return HttpResponse(f"Database error: {e}")
