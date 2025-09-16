@@ -37,27 +37,28 @@ def populate(request):
 		except Exception as e:
 			results.append(str(e))
 
-	return HttpResponse("<br>".join(results))
-
-		
+	return HttpResponse("<br>".join(results))	
 
 def display(request):
 	movies = Movies.objects.all()
 	return render(request, "movies_orm.html", {"movies": movies})
 
-def remove(request):
+
+def update(request):
 	if request.method == "POST":
 		title = request.POST.get("title")
-		if title:
+		op_crawl = request.POST.get("op_crawl")
+		if op_crawl and title:
 			try:
 				movie = Movies.objects.get(title=title)
-				movie.delete()
+				movie.opening_crawl = op_crawl
+				movie.save()
 			except Movies.DoesNotExist:
 				return HttpResponse("No data available")
-	
+			
 	movies = Movies.objects.all()
-	
+
 	if not movies:
 		return HttpResponse("No data available")
-
-	return render(request, "remove_orm.html", {"movies": movies})
+	
+	return render (request, "update_orm.html", {"movies": movies})

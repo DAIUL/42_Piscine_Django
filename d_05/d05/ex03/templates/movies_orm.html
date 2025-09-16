@@ -14,6 +14,8 @@
 				<th>Producer</th>
 				<th>Release date</th>
 				<th>Opening crawl</th>
+				<th>Created date</th>
+				<th>Updated Date</th>
 			</tr>
 			{% for movie in movies %}
 			<tr>
@@ -23,6 +25,8 @@
 				<td>{{ movie.producer }}</td>
 				<td>{{ movie.release_date }}</td>
 				<td>{{ movie.opening_crawl|default:"NULL"}}</td>
+				<td>{{ movie.created}}</td>
+				<td>{{ movie.updated}}</td>
 			</tr>
 			{% endfor %}
 		</table>
