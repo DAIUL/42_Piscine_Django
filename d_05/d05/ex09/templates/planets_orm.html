@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block style %}{% endblock style %}
+
+{% block nav %}{% endblock nav %}
+
+{% block content %}
+  <h1>Characters from windy planets</h1>
+  <table border="1">
+    <tr>
+      <th>Name</th>
+      <th>Homeworld</th>
+      <th>Climate</th>
+    </tr>
+    {% for person in people %}
+      <tr>
+        <td>{{ person.name }}</td>
+        <td>{{ person.homeworld.name }}</td>
+        <td>{{ person.homeworld.climate }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endblock %}
