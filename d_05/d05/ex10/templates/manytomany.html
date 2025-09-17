@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}{% endblock title %}
+
+{% block style %}{% endblock style %}
+
+{% block nav %} {% endblock nav %}
+
+{% block content %}
+{% if movies and people and planets %}
+	<h1>Refine your search</h1>
+
+	<form method="post">
+		{% csrf_token %}
+	<label for="min_date">Movies minimum release date:</label>
+	<input type="date" id="min_date" name="min_date" required><br>
+	<label for="max_date">Movies maximum release date:</label>
+	<input type="date" id="max_date" name="max_date" required><br>
+	<label for="diameter">Planet diameter greater than:</label>
+	<input type="number" id="diameter" name="diameter" min="0" step="1" required><br>
+	<label for="genders">Select gender:</label>
+	<select name="gender" required>
+		{% for gender in genders %}
+			<option value="{{gender}}">{{gender}}</option>
+		{% endfor %}
+	</select><br>
+		<button type="submit">Search</button>
+	</form>
+{% else %}
+	<p>No data available</p>
+{% endif %}
+{% if selection %}
+<h1>Selection</h1>
+<table>
+	<tr>
+		<th>Name</th>
+		<th>Gender</th>
+		<th>Movie title</th>
+		<th>Homeworld</th>
+		<th>Planet diameter</th>
+	</tr>
+	{% for movie in selection %}
+		{% for person in movie.characters.all %}
+			{% if person in people and person.homeworld in planets %}
+				<tr>
+					<td>{{person.name}}</td>
+					<td>{{person.gender}}</td>
+					<td>{{movie.title}}</td>
+					<td>{{person.homeworld.name}}</td>
+					<td>{{person.homeworld.diameter}}</td>
+				</tr>
+			{% endif %}
+		{% endfor %}
+	{% endfor %}
+</table>
+{% else %}
+	<p>Nothing corresponding to your research</p>
+{% endif %}
+{% endblock content %}
