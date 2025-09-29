@@ -1,9 +1,55 @@
 {% extends "base.html" %}
 
-{% block title %}Homepage{% endblock title %}
+{% load bootstrap5 %}
 
-{% block style %}{% endblock style %}
+{% block title %}Homepage{% endblock title %}
 
 {% block content %}
 <h1 class="text-center mt-4">Bienvenue en cette terre de bons conseils</h1>
+
+{% if form %}
+	<div class="container d-flex justify-content-center mt-5" style="min-height: 0vh;">
+		<div class="card shadow p-4" style="width: 400px;">
+			<h2 class="text-center mt-4">Give a Tip</h2>
+			
+			<form method="post">
+				{% csrf_token %}
+				{% bootstrap_form form %}
+				<button type="submit" class="btn btn-primary w-100">Publish</button>
+			</form>
+		</div>
+	</div>
+{% endif %}
+
+{% if tips %}
+<div class="container mt-5">
+    <div class="row">
+        {% for tip in tips %}
+        <div class="col-md-4 d-flex flex-column justify-content-between">
+            <div class="card shadow p-4 m-2 d-flex flex-column justify-content-between" style="width: 100%; min-height: 250px;">
+                <h2 class="text-center mt-1">{{ tip.author.username }}</h2>
+                <p>{{ tip.content }}</p>
+				<div class="d-flex justify-content-between">
+					<p class="text-muted">{{ tip.created_at }}</p>
+					<form action="{% url 'ex03_tips_upvote' tip.id %}" method="post" style="display:inline;">
+						{% csrf_token %}
+						<button type="submit" class="btn btn-success">👍 {{ tip.upvotes.count }}</button>
+					</form>
+					<form action="{% url 'ex03_tips_downvote' tip.id %}" method="post" style="display:inline;">
+						{% csrf_token %}
+						<button type="submit" class="btn btn-danger">👎 {{ tip.downvotes.count }}</button>
+					</form>
+				</div>
+				<form method="post" action="{% url 'ex03_tips_delete' tip.id %}">
+					{% csrf_token %}
+					<button type="submit" class="btn btn-danger">Delete</button>
+				</form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+
 {% endblock content %}
