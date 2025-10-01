@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Details{% endblock title %}
+
+{% block content %}
+<h1>Details</h1>
+
+{% if user.is_authenticated %}
+	<form method="post">
+		{% csrf_token %}
+		<button type="submit">Add to Favorites</button>
+	</form>
+{% endif %}
+
+<h1>{{ article.title }}</h1><br>
+<h3 label="Author">{{ article.author.username }}</h3><br>
+<p>{{ article.synopsis }}</p><br>
+<p>{{ article.content }}</p><br>
+<h4 label="created_at">{{ article.created }}</h4>
+
+{% endblock content %}

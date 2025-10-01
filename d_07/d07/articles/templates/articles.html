@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Articles{% endblock title %}
+
+{% block content %}
+<h1>Articles</h1>
+
+<table>
+	<thead>
+		<tr>
+			<td>Title</td>
+			<td>Author</td>
+			<td>Synopsis</td>
+			<td>Created</td>
+		</tr>
+	</thead>
+	<tbody>
+		{% for article in articles %}
+			<tr>
+				<td>{{ article.title }}</td>
+				<td>{{ article.author.username }}</td>
+				<td>{{ article.synopsis }}</td>
+				<td>{{ article.created }}</td>
+				<td><a href="{% url 'details' article.id %}">See More</a></td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>
+<a href="{% url 'logout' %}">Logout</a>
+{% endblock content %}

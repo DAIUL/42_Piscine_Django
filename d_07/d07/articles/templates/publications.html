@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}P{% endblock title %}
+
+{% block content %}
+<h1>Publications</h1>
+
+<table>
+	<thead>
+		<tr>
+			<td>Title</td>
+			<td>Synopsis</td>
+			<td>Created</td>
+		</tr>
+	</thead>
+	<tbody>
+		{% for article in publications %}
+			<tr>
+				<td>{{ article.title }}</td>
+				<td>{{ article.synopsis }}</td>
+				<td>{{ article.created }}</td>
+				<td><a href="{% url 'details' article.id %}">See More</a></td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock content %}
