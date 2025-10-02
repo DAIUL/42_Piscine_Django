@@ -4,30 +4,75 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>{% block title %}{% endblock title %}</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
-<body>
-	<nav>
-		<ul>
-				<li><a href="{% url 'home' %}">Home</a></li>
-				<li><a href="{% url 'articles' %}">Last Articles</a></li>
-			{% if user.is_authenticated %}
-				<li><a href="{% url 'favourites' %}">Favourites</a></li>
-				<li><a href="{% url 'publications' %}">Publications</a></li>
-				<li><a href="{% url 'logout' %}">Log out</a></li>
-				<li><h3>Logged as {{user.username}}</h3></li>
-			{% else %}
-				<li><a href="{% url 'register' %}">Register</a></li>
-				<li>
-					<form method="post">
-						{% csrf_token %}
-						{{ form.as_p }}
-						<button type="submit">Log in</button>
-					</form>
-				</li>
-			{% endif %}
-		</ul>
-	</nav>
-	
+<body class="px-3">
+{% load i18n %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-white">
+  <div class="container-fluid bg-dark rounded">
+	<!-- À gauche -->
+	<a class="navbar-brand" href="{% url 'home' %}"><i class="bi bi-journals"></i></a>
+	<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+	  <span class="navbar-toggler-icon"></span>
+	</button>
+
+	  <ul class="navbar-nav">
+		<li class="nav-item">
+			<a class="nav-link {% if request.resolver_match.url_name == 'articles' %}bg-black text-white{% endif %}" 
+				href="{% url 'articles' %}">{% trans " Last Articles" %}</a>
+		</li>
+		{% if user.is_authenticated %}
+		<li class="nav-item">
+			<a class="nav-link {% if request.resolver_match.url_name == 'favourites' %}bg-black text-white{% endif %}" 
+				href="{% url 'favourites' %}">{% trans "Favourites" %}</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link {% if request.resolver_match.url_name == 'publications' %}bg-black text-white{% endif %}" 
+				href="{% url 'publications' %}">{% trans "Publications" %}</a>
+		</li>
+		{% else %}
+		  <li class="nav-item">
+				<a class="nav-link {% if request.resolver_match.url_name == 'register' %}bg-black text-white{% endif %}"
+				href="{% url 'register' %}">{% trans "Register" %}</a>
+		  </li>
+		{% endif %}
+	  </ul>
+
+	  <!-- À droite -->
+	  <ul class="navbar-nav ms-auto">
+		{% if user.is_authenticated %}
+		  <li class="nav-item">
+			<span class="nav-link disabled">{% trans "Logged as" %} {{ user.username }}</span>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link" href="{% url 'logout' %}">{% trans "Log out" %}</a>
+		  </li>
+		{% else %}
+		  <li class="nav-item">
+			<!-- Formulaire de login directement dans le menu -->
+			<form method="post" action="{% url 'login' %}" class="d-flex flex-nowrap">
+			{% csrf_token %}
+			<input type="text" name="username" class="form-control me-2" placeholder="{% trans 'Username' %}">
+			<input type="password" name="password" class="form-control me-2" placeholder="{% trans 'Password' %}">
+			<button class="btn btn-outline-light" type="submit" style="white-space: nowrap;">{% trans "Log in" %}</button>
+			</form>
+		  </li>
+		{% endif %}
+	  </ul>
+	</div>
+  </div>
+</nav>
+
+<form action="{% url 'set_language' %}" method="post">
+    {% csrf_token %}
+    {% if request.LANGUAGE_CODE == 'en' %}
+	<a href="/fr{{ request.get_full_path|slice:'3:' }}" class="btn btn-sm btn-outline-dark text-dark">FR</a>
+	{% else %}
+	<a href="/en{{ request.get_full_path|slice:'3:' }}" class="btn btn-sm btn-outline-dark text-dark">EN</a>
+	{% endif %}
+</form>
+
 	{% block content %}{% endblock content %}
 
 </body>

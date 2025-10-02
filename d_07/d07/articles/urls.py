@@ -1,6 +1,8 @@
-from django.urls import path
+from django.urls import path, include
 from .views import ArticleListView, UserLoginView, HomeRedirectView, UserCreateView, PublicationListView, ArticleDetailView, FavouritesListView, PublishCreateView, AddFavouriteCreateView
 from django.contrib.auth.views import LogoutView
+from django.conf.urls.i18n import i18n_patterns
+
 
 urlpatterns = [
 	path('', HomeRedirectView.as_view(), name="home"),
