@@ -6,6 +6,27 @@
 	<title>{% block title %}{% endblock title %}</title>
 </head>
 <body>
+	<nav>
+		<ul>
+				<li><a href="{% url 'home' %}">Home</a></li>
+				<li><a href="{% url 'articles' %}">Last Articles</a></li>
+			{% if user.is_authenticated %}
+				<li><a href="{% url 'favourites' %}">Favourites</a></li>
+				<li><a href="{% url 'publications' %}">Publications</a></li>
+				<li><a href="{% url 'logout' %}">Log out</a></li>
+				<li><h3>Logged as {{user.username}}</h3></li>
+			{% else %}
+				<li><a href="{% url 'register' %}">Register</a></li>
+				<li>
+					<form method="post">
+						{% csrf_token %}
+						{{ form.as_p }}
+						<button type="submit">Log in</button>
+					</form>
+				</li>
+			{% endif %}
+		</ul>
+	</nav>
 	
 	{% block content %}{% endblock content %}
 

@@ -6,10 +6,7 @@
 <h1>Details</h1>
 
 {% if user.is_authenticated %}
-	<form method="post">
-		{% csrf_token %}
-		<button type="submit">Add to Favorites</button>
-	</form>
+	<a href="{% url 'add_favourite' article.id %}">Add to Favourites</a>
 {% endif %}
 
 <h1>{{ article.title }}</h1><br>

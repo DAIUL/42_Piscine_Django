@@ -8,11 +8,13 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from .models import UserFavoriteArticle, Article
+from .forms import ArticleForm
 
 class ArticleListView(ListView):
 	model = Article
 	template_name = "articles.html"
 	context_object_name = "articles"
+	ordering = ['-created']
 
 class PublicationListView(LoginRequiredMixin, ListView):
 	model = Article
@@ -32,7 +34,7 @@ class UserLoginView(LoginView):
 class UserCreateView(CreateView):
 	model = User
 	form_class = UserCreationForm
-	template_name = "signup.html"
+	template_name = "register.html"
 	success_url = reverse_lazy("login")
 
 class ArticleDetailView(DetailView):
@@ -55,3 +57,28 @@ class FavouritesListView(LoginRequiredMixin, ListView):
 
 	def get_queryset(self):
 		return UserFavoriteArticle.objects.filter(user=self.request.user)
+	
+class PublishCreateView(LoginRequiredMixin, CreateView):
+	model = Article
+	form_class = ArticleForm
+	template_name = "publish.html"
+	success_url = reverse_lazy("publications")
+
+	def form_valid(self, form):
+		form.instance.author = self.request.user
+		return super().form_valid(form)
+	
+class AddFavouriteCreateView(LoginRequiredMixin, CreateView):
+	model = UserFavoriteArticle
+	fields = []
+	template_name = "add_favourite.html"
+	login_url = "login"
+
+	def form_valid(self, form):
+		form.instance.user = self.request.user
+		form.instance.article = get_object_or_404(Article, pk=self.kwargs['pk'])
+		return super().form_valid(form)
+	
+	def get_success_url(self):
+		return reverse_lazy("details", kwargs={"pk": self.kwargs['pk']})
+	

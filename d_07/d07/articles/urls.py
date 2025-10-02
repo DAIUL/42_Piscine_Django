@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ArticleListView, UserLoginView, HomeRedirectView, UserCreateView, PublicationListView, ArticleDetailView, FavouritesListView
+from .views import ArticleListView, UserLoginView, HomeRedirectView, UserCreateView, PublicationListView, ArticleDetailView, FavouritesListView, PublishCreateView, AddFavouriteCreateView
 from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
@@ -10,5 +10,7 @@ urlpatterns = [
 	path('details/<int:pk>', ArticleDetailView.as_view(), name="details"),
 	path('favourites', FavouritesListView.as_view(), name="favourites"),
 	path('logout', LogoutView.as_view(next_page="home"), name="logout"),
-	# path('signup', UserCreateView.as_view(), name="signup"),
+	path('register', UserCreateView.as_view(), name="register"),
+	path('publish', PublishCreateView.as_view(), name="publish"),
+	path('articles/<int:pk>/add-favorite/', AddFavouriteCreateView.as_view(), name='add_favourite'),
 ]

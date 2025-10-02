@@ -19,8 +19,9 @@
 			<tr>
 				<td>{{ article.title }}</td>
 				<td>{{ article.author.username }}</td>
-				<td>{{ article.synopsis }}</td>
+				<td>{{ article.synopsis|truncatechars:20 }}</td>
 				<td>{{ article.created }}</td>
+				<td>{{ article.created|timesince }} ago</td>
 				<td><a href="{% url 'details' article.id %}">See More</a></td>
 			</tr>
 		{% endfor %}
